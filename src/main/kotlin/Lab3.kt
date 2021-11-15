@@ -6,7 +6,7 @@ interface Shape {
     fun calcPerimeter(): Double
 }
 
-class Circle constructor(private val radius: Double): Shape {
+class Circle constructor(private val radius: Double) : Shape {
     init {
         if (radius <= 0) throw Exception("radius of the circle cannot be <= 0")
     }
@@ -20,7 +20,7 @@ class Circle constructor(private val radius: Double): Shape {
     }
 }
 
-class Square constructor(private  val a: Double): Shape {
+class Square constructor(private val a: Double) : Shape {
     init {
         if (a <= 0) throw  Exception("length of the side of the square cannot be <= 0")
     }
@@ -34,7 +34,7 @@ class Square constructor(private  val a: Double): Shape {
     }
 }
 
-class Rectangle constructor(private  val a: Double, private val b: Double): Shape {
+class Rectangle constructor(private val a: Double, private val b: Double) : Shape {
     init {
         if (a < 0 || b < 0) throw Exception("length of the side of the rectangle cannot be <= 0")
     }
@@ -48,18 +48,18 @@ class Rectangle constructor(private  val a: Double, private val b: Double): Shap
     }
 }
 
-class Triangle constructor(private  val a: Double, private val b: Double, private val c: Double): Shape {
+class Triangle constructor(private val a: Double, private val b: Double, private val c: Double) : Shape {
     init {
         if (a + b <= c || a + c <= b || b + c <= a) throw Exception("triangle with sides $a, $b, $c dose not exist")
     }
 
     override fun calcArea(): Double {
-        val semiPerimeter  = calcPerimeter() / 2
+        val semiPerimeter = calcPerimeter() / 2
         return sqrt(semiPerimeter * (semiPerimeter - a) * (semiPerimeter - b) * (semiPerimeter - c))
     }
 
     override fun calcPerimeter(): Double {
-        return a + b +c
+        return a + b + c
     }
 }
 
@@ -83,7 +83,7 @@ class ShapeFactoryImpl : ShapeFactory {
     }
 
     override fun createSquare(a: Double): Square {
-        return  Square(a)
+        return Square(a)
     }
 
     override fun createRectangle(a: Double, b: Double): Rectangle {
@@ -169,7 +169,7 @@ class ShapeMethods {
         for (shape in shapes)
             if (shape.calcArea() > max)
                 max = shape.calcArea()
-        return  max
+        return max
     }
 
     fun minArea(shapes: List<Shape>): Double {
@@ -177,6 +177,6 @@ class ShapeMethods {
         for (shape in shapes)
             if (shape.calcArea() < min)
                 min = shape.calcArea()
-        return  min
+        return min
     }
 }

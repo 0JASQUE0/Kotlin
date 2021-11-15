@@ -12,7 +12,7 @@ enum class Type {
     ERROR
 }
 
-class Operator constructor(var operator: String, val priority: Int, val type:Type)
+class Operator constructor(var operator: String, val priority: Int, val type: Type)
 
 fun calculateExpression(infixString: String): Double {
     val postfixList = infixToPostfix(infixString)
@@ -20,7 +20,7 @@ fun calculateExpression(infixString: String): Double {
     for (item in postfixList) {
         if (defineType(item) == Type.DIGIT) {
             stack.push(item)
-        } else if (defineType(item) == Type.CONSTANT){
+        } else if (defineType(item) == Type.CONSTANT) {
             when (item) {
                 "pi" -> stack.push(Math.PI.toString())
                 "e" -> stack.push(Math.E.toString())
@@ -41,7 +41,7 @@ fun calculateExpression(infixString: String): Double {
 }
 
 fun infixToPostfix(infixString: String): List<String> {
-    val list =  stringToList(infixString)
+    val list = stringToList(infixString)
     val postfixList = mutableListOf<String>()
     val stack = Stack<Operator>()
 
@@ -50,7 +50,7 @@ fun infixToPostfix(infixString: String): List<String> {
             Type.DIGIT -> postfixList.add(item.operator)
             Type.CONSTANT -> postfixList.add(item.operator)
             Type.BINARY_OPERATOR, Type.FUNCTION -> {
-                while(stack.isNotEmpty() && item.priority <= stack.last().priority) {
+                while (stack.isNotEmpty() && item.priority <= stack.last().priority) {
                     postfixList.add(stack.pop().operator)
                 }
                 stack.push(item)
@@ -75,17 +75,21 @@ fun infixToPostfix(infixString: String): List<String> {
     return postfixList
 }
 
-fun stringToList (infixString: String): List<Operator> {
+fun stringToList(infixString: String): List<Operator> {
     val list = mutableListOf<Operator>()
     var lastElement = Operator("", -1, Type.NULL)
     val infixStringWithoutSpaces = infixString.replace(" ", "")
     var flag = false
     var tempString = ""
     for (character in infixStringWithoutSpaces) {
-        if (defineType(character.toString()) == Type.DIGIT || defineType(character.toString()) == Type.ERROR || defineType(character.toString()) == Type.CONSTANT) {
+        if (defineType(character.toString()) == Type.DIGIT || defineType(character.toString()) == Type.ERROR || defineType(
+                character.toString()
+            ) == Type.CONSTANT
+        ) {
             tempString += character
         } else if ((character == '-' || character == '+')
-            && (lastElement.type == Type.OPEN_BRACKET || lastElement.type == Type.NULL || lastElement.type == Type.BINARY_OPERATOR) && tempString.isEmpty()) {
+            && (lastElement.type == Type.OPEN_BRACKET || lastElement.type == Type.NULL || lastElement.type == Type.BINARY_OPERATOR) && tempString.isEmpty()
+        ) {
             // unary '+' and '-'
             if (character == '+') continue
             else {
@@ -93,7 +97,8 @@ fun stringToList (infixString: String): List<Operator> {
                 continue
             }
         } else if ((character == '*' || character == '/' || character == '^')
-            && (lastElement.type == Type.OPEN_BRACKET || lastElement.type == Type.NULL || lastElement.type == Type.BINARY_OPERATOR) && tempString.isEmpty()) {
+            && (lastElement.type == Type.OPEN_BRACKET || lastElement.type == Type.NULL || lastElement.type == Type.BINARY_OPERATOR) && tempString.isEmpty()
+        ) {
             throw Exception("incorrect input or something went wrong")
         } else {
             if (tempString.isNotEmpty()) {
@@ -102,13 +107,14 @@ fun stringToList (infixString: String): List<Operator> {
                         throw Exception("incorrect input or something went wrong")
                 lastElement = Operator(tempString, getPriority(tempString), defineType(tempString))
                 tempString = ""
-                if (flag){
+                if (flag) {
                     lastElement.operator = "-" + lastElement.operator
                     flag = false
                 }
                 list.add(lastElement)
             }
-            lastElement = Operator(character.toString(), getPriority(character.toString()), defineType(character.toString()))
+            lastElement =
+                Operator(character.toString(), getPriority(character.toString()), defineType(character.toString()))
             list.add(lastElement)
         }
     }
@@ -117,7 +123,7 @@ fun stringToList (infixString: String): List<Operator> {
             if (tempString.toDoubleOrNull() == null)
                 throw Exception("incorrect input or something went wrong")
         lastElement = Operator(tempString, getPriority(tempString), defineType(tempString))
-        if (flag){
+        if (flag) {
             lastElement.operator = "-" + lastElement.operator
         }
         list.add(lastElement)
@@ -144,7 +150,7 @@ fun defineType(operator: String): Type {
         ")" -> Type.CLOSE_BRACKET
         "pi", "e" -> Type.CONSTANT
         else -> {
-            return if(operator.toDoubleOrNull() != null) Type.DIGIT
+            return if (operator.toDoubleOrNull() != null) Type.DIGIT
             else Type.ERROR
         }
     }

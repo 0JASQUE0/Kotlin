@@ -25,13 +25,13 @@ fun alignTextLeft(
     if (lineWidth < 1)
         throw IllegalArgumentException("Line width should be greater than 1")
     var result = ""
-    for(line in text.lines()) {
+    for (line in text.lines()) {
         var currentLine = line.trim()
         while (currentLine.contains("  "))
             currentLine = currentLine.replace("  ", " ")
-        while(currentLine.length > lineWidth) {
+        while (currentLine.length > lineWidth) {
             val indexOfLastSpace: Int = currentLine.substring(0, lineWidth).lastIndexOf(' ')
-            if(indexOfLastSpace != -1) {
+            if (indexOfLastSpace != -1) {
                 result += currentLine.substring(0, indexOfLastSpace + 1).trim() + '\n'
                 currentLine = currentLine.drop(indexOfLastSpace + 1)
             } else {
@@ -51,13 +51,13 @@ fun alignTextRight(
     if (lineWidth < 1)
         throw IllegalArgumentException("Line width should be greater than 1")
     var result = ""
-    for(line in text.lines()) {
+    for (line in text.lines()) {
         var currentLine = line.trim()
         while (currentLine.contains("  "))
             currentLine = currentLine.replace("  ", " ")
-        while(currentLine.length > lineWidth) {
+        while (currentLine.length > lineWidth) {
             val indexOfLastSpace: Int = currentLine.substring(0, lineWidth).lastIndexOf(' ')
-            if(indexOfLastSpace != -1) {
+            if (indexOfLastSpace != -1) {
                 result += currentLine.substring(0, indexOfLastSpace + 1).trim().padStart(lineWidth, ' ') + '\n'
                 currentLine = currentLine.drop(indexOfLastSpace + 1)
             } else {
@@ -77,22 +77,24 @@ fun alignTextCenter(
     if (lineWidth < 1)
         throw IllegalArgumentException("Line width should be greater than 1")
     var result = ""
-    for(line in text.lines()) {
+    for (line in text.lines()) {
         var currentLine = line.trim()
         while (currentLine.contains("  "))
             currentLine = currentLine.replace("  ", " ")
-        while(currentLine.length > lineWidth) {
+        while (currentLine.length > lineWidth) {
             val indexOfLastSpace: Int = currentLine.substring(0, lineWidth).lastIndexOf(' ')
-            if(indexOfLastSpace != -1) {
-                result += currentLine.substring(0, indexOfLastSpace + 1).trim().padStart(lineWidth, ' ').drop((lineWidth - indexOfLastSpace) / 2).padEnd(lineWidth, ' ') + '\n'
+            if (indexOfLastSpace != -1) {
+                result += currentLine.substring(0, indexOfLastSpace + 1).trim().padStart(lineWidth, ' ')
+                    .drop((lineWidth - indexOfLastSpace) / 2).padEnd(lineWidth, ' ') + '\n'
                 currentLine = currentLine.drop(indexOfLastSpace + 1)
             } else {
                 result += currentLine.substring(0, lineWidth - 1).trim().padStart(lineWidth - 1, ' ') + '-' + '\n'
                 currentLine = currentLine.drop(lineWidth - 1)
             }
         }
-        val lengthOfLine : Int = currentLine.length
-        result += currentLine.padStart(lineWidth, ' ').drop((lineWidth - lengthOfLine)/2).padEnd(lineWidth, ' ') + '\n'
+        val lengthOfLine: Int = currentLine.length
+        result += currentLine.padStart(lineWidth, ' ').drop((lineWidth - lengthOfLine) / 2)
+            .padEnd(lineWidth, ' ') + '\n'
     }
     return result
 }
@@ -104,13 +106,13 @@ fun alignTextJustify(
     if (lineWidth < 1)
         throw IllegalArgumentException("Line width should be greater than 1")
     var result = ""
-    for(line in text.lines()) {
+    for (line in text.lines()) {
         var currentLine = line.trim()
         while (currentLine.contains("  "))
             currentLine = currentLine.replace("  ", " ")
-        while(currentLine.length > lineWidth) {
+        while (currentLine.length > lineWidth) {
             val indexOfLastSpace: Int = currentLine.substring(0, lineWidth).lastIndexOf(' ')
-            if(indexOfLastSpace != -1) {
+            if (indexOfLastSpace != -1) {
                 result += makingSpaces(currentLine.substring(0, indexOfLastSpace + 1).trim(), lineWidth) + '\n'
                 //result += currentLine.substring(0, indexOfLastSpace + 1).trim() + '\n'
                 currentLine = currentLine.drop(indexOfLastSpace + 1)
