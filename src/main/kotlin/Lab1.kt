@@ -18,12 +18,11 @@ fun alignText(
     }
 }
 
-fun alignTextLeft(
+private fun alignTextLeft(
     text: String,
     lineWidth: Int = 120,
 ): String {
-    if (lineWidth < 1)
-        throw IllegalArgumentException("Line width should be greater than 1")
+    checkingLineWidth(lineWidth)
     var result = ""
     for (line in text.lines()) {
         var currentLine = line.trim()
@@ -35,8 +34,8 @@ fun alignTextLeft(
                 result += currentLine.substring(0, indexOfLastSpace + 1).trim() + '\n'
                 currentLine = currentLine.drop(indexOfLastSpace + 1)
             } else {
-                result += currentLine.substring(0, lineWidth - 1).trim() + '-' + '\n'
-                currentLine = currentLine.drop(lineWidth - 1)
+                result += currentLine.substring(0, lineWidth).trim() + '\n'
+                currentLine = currentLine.drop(lineWidth)
             }
         }
         result += currentLine + '\n'
@@ -44,12 +43,11 @@ fun alignTextLeft(
     return result
 }
 
-fun alignTextRight(
+private fun alignTextRight(
     text: String,
     lineWidth: Int = 120,
 ): String {
-    if (lineWidth < 1)
-        throw IllegalArgumentException("Line width should be greater than 1")
+    checkingLineWidth(lineWidth)
     var result = ""
     for (line in text.lines()) {
         var currentLine = line.trim()
@@ -61,8 +59,8 @@ fun alignTextRight(
                 result += currentLine.substring(0, indexOfLastSpace + 1).trim().padStart(lineWidth, ' ') + '\n'
                 currentLine = currentLine.drop(indexOfLastSpace + 1)
             } else {
-                result += currentLine.substring(0, lineWidth - 1).trim().padStart(lineWidth - 1, ' ') + '-' + '\n'
-                currentLine = currentLine.drop(lineWidth - 1)
+                result += currentLine.substring(0, lineWidth).trim().padStart(lineWidth, ' ') + '\n'
+                currentLine = currentLine.drop(lineWidth)
             }
         }
         result += currentLine.padStart(lineWidth, ' ') + '\n'
@@ -70,12 +68,11 @@ fun alignTextRight(
     return result
 }
 
-fun alignTextCenter(
+private fun alignTextCenter(
     text: String,
     lineWidth: Int = 120,
 ): String {
-    if (lineWidth < 1)
-        throw IllegalArgumentException("Line width should be greater than 1")
+    checkingLineWidth(lineWidth)
     var result = ""
     for (line in text.lines()) {
         var currentLine = line.trim()
@@ -88,8 +85,8 @@ fun alignTextCenter(
                     .drop((lineWidth - indexOfLastSpace) / 2).padEnd(lineWidth, ' ') + '\n'
                 currentLine = currentLine.drop(indexOfLastSpace + 1)
             } else {
-                result += currentLine.substring(0, lineWidth - 1).trim().padStart(lineWidth - 1, ' ') + '-' + '\n'
-                currentLine = currentLine.drop(lineWidth - 1)
+                result += currentLine.substring(0, lineWidth).trim().padStart(lineWidth, ' ') + '\n'
+                currentLine = currentLine.drop(lineWidth)
             }
         }
         val lengthOfLine: Int = currentLine.length
@@ -99,12 +96,11 @@ fun alignTextCenter(
     return result
 }
 
-fun alignTextJustify(
+private fun alignTextJustify(
     text: String,
     lineWidth: Int = 120,
 ): String {
-    if (lineWidth < 1)
-        throw IllegalArgumentException("Line width should be greater than 1")
+    checkingLineWidth(lineWidth)
     var result = ""
     for (line in text.lines()) {
         var currentLine = line.trim()
@@ -117,8 +113,8 @@ fun alignTextJustify(
                 //result += currentLine.substring(0, indexOfLastSpace + 1).trim() + '\n'
                 currentLine = currentLine.drop(indexOfLastSpace + 1)
             } else {
-                result += currentLine.substring(0, lineWidth - 1).trim() + '-' + '\n'
-                currentLine = currentLine.drop(lineWidth - 1)
+                result += currentLine.substring(0, lineWidth).trim() + '\n'
+                currentLine = currentLine.drop(lineWidth)
             }
         }
         result += currentLine + '\n'
@@ -127,7 +123,7 @@ fun alignTextJustify(
 }
 
 //this function makes the spaces wider (for alignTextJustify)
-fun makingSpaces(
+private fun makingSpaces(
     line: String,
     lineWidth: Int
 ): String {
@@ -139,18 +135,20 @@ fun makingSpaces(
     var amountOfBigSpaces: Int = (lineWidth - line.length) % amountOfSpaces
     var tempString = ""
     for (word in line.split(' ')) {
+        var iterator = widthOfSpaces
         if (amountOfBigSpaces > 0) {
-            tempString += word
-            repeat(widthOfSpaces + 1) {
-                tempString += " "
-            }
+            iterator++
             amountOfBigSpaces--
-        } else {
-            tempString += word
-            repeat(widthOfSpaces) {
-                tempString += " "
-            }
+        }
+        tempString += word
+        repeat(iterator) {
+            tempString += " "
         }
     }
     return tempString
+}
+
+private fun checkingLineWidth(lineWidth: Int) {
+    if (lineWidth < 1)
+        throw IllegalArgumentException("Line width should be greater than 0")
 }
