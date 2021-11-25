@@ -1,14 +1,15 @@
 import kotlin.math.pow
 import kotlin.math.sqrt
+import kotlin.math.abs
 
 interface Shape {
     fun calcArea(): Double
     fun calcPerimeter(): Double
 }
 
-class Circle constructor(private val radius: Double) : Shape {
+class Circle(val radius: Double) : Shape {
     init {
-        if (radius <= 0) throw Exception("radius of the circle cannot be <= 0")
+        if (radius <= 0) throw IllegalArgumentException("radius of the circle cannot be <= 0")
     }
 
     override fun calcArea(): Double {
@@ -20,9 +21,9 @@ class Circle constructor(private val radius: Double) : Shape {
     }
 }
 
-class Square constructor(private val a: Double) : Shape {
+class Square(val a: Double) : Shape {
     init {
-        if (a <= 0) throw  Exception("length of the side of the square cannot be <= 0")
+        if (a <= 0) throw  IllegalArgumentException("length of the side of the square cannot be <= 0")
     }
 
     override fun calcArea(): Double {
@@ -34,9 +35,9 @@ class Square constructor(private val a: Double) : Shape {
     }
 }
 
-class Rectangle constructor(private val a: Double, private val b: Double) : Shape {
+class Rectangle(val a: Double, val b: Double) : Shape {
     init {
-        if (a < 0 || b < 0) throw Exception("length of the side of the rectangle cannot be <= 0")
+        if (a <= 0 || b <= 0) throw IllegalArgumentException("length of the side of the rectangle cannot be <= 0")
     }
 
     override fun calcArea(): Double {
@@ -48,9 +49,10 @@ class Rectangle constructor(private val a: Double, private val b: Double) : Shap
     }
 }
 
-class Triangle constructor(private val a: Double, private val b: Double, private val c: Double) : Shape {
+class Triangle(val a: Double, val b: Double, val c: Double) : Shape {
     init {
-        if (a + b <= c || a + c <= b || b + c <= a) throw Exception("triangle with sides $a, $b, $c dose not exist")
+        if (a <= 0 || b <= 0 || c <= 0) throw IllegalArgumentException("length of the side of the triangle cannot be <= 0")
+        if (a + b <= c || a + c <= b || b + c <= a) throw IllegalArgumentException("triangle with sides $a, $b, $c dose not exist")
     }
 
     override fun calcArea(): Double {
@@ -107,14 +109,9 @@ class ShapeFactoryImpl : ShapeFactory {
     }
 
     override fun createRandomTriangle(): Triangle {
-        var a = randomDouble()
-        var b = randomDouble()
-        var c = randomDouble()
-        while (a + b <= c || a + c <= b || b + c <= a) {
-            a = randomDouble()
-            b = randomDouble()
-            c = randomDouble()
-        }
+        val a = randomDouble()
+        val b = randomDouble()
+        val c = ((abs(a - b).toInt() + 1) until (a + b).toInt()).random().toDouble()
         return Triangle(a, b, c)
     }
 
@@ -148,35 +145,52 @@ class ShapeMethods {
         return sum
     }
 
-    fun maxPerimeter(shapes: List<Shape>): Double {
-        var max = 0.0
+    fun maxPerimeter(shapes: List<Shape>): Shape? {
+        if (shapes.isEmpty()) return null
+        var maxPerimeter = 0.0
+        var maxShape = shapes[0]
         for (shape in shapes)
-            if (shape.calcPerimeter() > max)
-                max = shape.calcPerimeter()
-        return max
+            if (shape.calcPerimeter() > maxPerimeter) {
+                maxPerimeter = shape.calcPerimeter()
+                maxShape = shape
+            }
+        return maxShape
     }
 
-    fun minPerimeter(shapes: List<Shape>): Double {
-        var min = Double.MAX_VALUE
+    fun minPerimeter(shapes: List<Shape>): Shape? {
+        if (shapes.isEmpty()) return null
+        var minPerimeter = Double.MAX_VALUE
+        var minShape = shapes[0]
         for (shape in shapes)
-            if (shape.calcPerimeter() < min)
-                min = shape.calcPerimeter()
-        return min
+            if (shape.calcPerimeter() < minPerimeter) {
+                minPerimeter = shape.calcPerimeter()
+                minShape = shape
+            }
+        return minShape
     }
 
-    fun maxArea(shapes: List<Shape>): Double {
-        var max = 0.0
+    fun maxArea(shapes: List<Shape>): Shape? {
+        if (shapes.isEmpty()) return null
+        var maxArea = 0.0
+        var maxShape = shapes[0]
         for (shape in shapes)
-            if (shape.calcArea() > max)
-                max = shape.calcArea()
-        return max
+            if (shape.calcArea() > maxArea) {
+                maxArea = shape.calcArea()
+                maxShape = shape
+            }
+        return maxShape
     }
 
-    fun minArea(shapes: List<Shape>): Double {
-        var min = Double.MAX_VALUE
+    fun minArea(shapes: List<Shape>): Shape? {
+        if (shapes.isEmpty()) return null
+        var minArea = Double.MAX_VALUE
+        var minShape = shapes[0]
         for (shape in shapes)
-            if (shape.calcArea() < min)
-                min = shape.calcArea()
-        return min
+            if (shape.calcArea() < minArea) {
+                minArea = shape.calcArea()
+                minShape = shape
+            }
+        return minShape
     }
 }
+
