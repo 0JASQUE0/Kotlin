@@ -10,6 +10,8 @@ fun alignText(
     lineWidth: Int = 120,
     alignment: Alignment = Alignment.LEFT
 ): String {
+    if (lineWidth < 1)
+        throw IllegalArgumentException("Line width should be greater than 0")
     return when (alignment) {
         Alignment.LEFT -> alignTextLeft(text, lineWidth)
         Alignment.RIGHT -> alignTextRight(text, lineWidth)
@@ -22,7 +24,6 @@ private fun alignTextLeft(
     text: String,
     lineWidth: Int = 120,
 ): String {
-    checkingLineWidth(lineWidth)
     var result = ""
     for (line in text.lines()) {
         var currentLine = line.trim()
@@ -47,7 +48,6 @@ private fun alignTextRight(
     text: String,
     lineWidth: Int = 120,
 ): String {
-    checkingLineWidth(lineWidth)
     var result = ""
     for (line in text.lines()) {
         var currentLine = line.trim()
@@ -72,7 +72,6 @@ private fun alignTextCenter(
     text: String,
     lineWidth: Int = 120,
 ): String {
-    checkingLineWidth(lineWidth)
     var result = ""
     for (line in text.lines()) {
         var currentLine = line.trim()
@@ -100,7 +99,6 @@ private fun alignTextJustify(
     text: String,
     lineWidth: Int = 120,
 ): String {
-    checkingLineWidth(lineWidth)
     var result = ""
     for (line in text.lines()) {
         var currentLine = line.trim()
@@ -146,9 +144,4 @@ private fun makingSpaces(
         }
     }
     return tempString
-}
-
-private fun checkingLineWidth(lineWidth: Int) {
-    if (lineWidth < 1)
-        throw IllegalArgumentException("Line width should be greater than 0")
 }
