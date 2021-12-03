@@ -1,3 +1,5 @@
+import Lab5.*
+
 fun main() {
     // first lab
 
@@ -52,7 +54,7 @@ fun main() {
 
     //fourth lab
 
-    val array1: Array<Array<Double>> = arrayOf(
+    /*val array1: Array<Array<Double>> = arrayOf(
         arrayOf(1.0, 2.0),
         arrayOf(3.0, 4.0)
     )
@@ -94,5 +96,40 @@ fun main() {
     val matrix2 = Matrix(array1)
 
     println(matrix2 == Matrix(array1))
-    println(matrix2 == Matrix(array2))
+    println(matrix2 == Matrix(array2))*/
+
+    //fifth lab
+
+    val library: LibraryService = Library()
+
+    val book1 = Book("Автостопом по галактике", Author("Дуглас Адамс"), Genre.FANTASY, Year(1979))
+
+    library.addBook(Book("Властелин Колец", Author("Джон Р. Р. Толкин"), Genre.ADVENTURE, Year(1979)), Status.Available)
+    library.addBook(Book("Гордость и предубеждение", Author("Джейн Остин"), Genre.TRAGEDY, Year(1813)), Status.Available)
+    library.addBook(Book("Шерлок Холмс", Author("Конан Дойль"), Genre.DETECTIVE, Year(1892)), Status.Available)
+    library.addBook(Book("Мастер и Маргарита", Author("\n" + "Мастер и Маргарита\n" + "Михаил Булгаков"), Genre.MYSTERY, Year(1967)), Status.Available)
+    library.addBook(Book("Оно", Author("Стивен Кинг"), Genre.HORROR, Year(1986)), Status.Available)
+    library.addBook(book1, Status.Available)
+    library.addBook(Book("Ревизор", Author("Николай Гоголь"), Genre.COMEDY, Year(1836)), Status.Available)
+
+    val user1 = User("Дмитрий", "Квитко")
+    val user2 = User("Олег", "Баязитов")
+    val user3 = User("Иван", "Бабкин")
+
+    library.registerUser(user1)
+    library.registerUser(user2)
+    library.registerUser(user3)
+
+    library.takeBook(user1, book1)
+    library.returnBook(book1)
+
+    library.unregisterUser(user1)
+
+    var result: List<Book> = library.findBooks(genre = Genre.HORROR)
+    for (i in result)
+        println(i)
+
+    result = library.findBooks(year = Year(1979))
+    for (i in result)
+        println(i)
 }
