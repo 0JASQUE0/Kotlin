@@ -24,10 +24,8 @@ sealed class Status {
 
 interface LibraryService {
 
+    //search for books by one of the criteria
     fun findBooks(title: String? = null, author: Author? = null, year: Year? = null, genre: Genre? = null): List<Book>
-    //fun findBooks(author: Author): List<Book>
-    //fun findBooks(year: Year): List<Book>
-    //fun findBooks(genre: Genre): List<Book>
 
     fun getAllBooks(): List<Book>
     fun getAllAvailableBooks(): List<Book>
@@ -44,6 +42,7 @@ interface LibraryService {
     fun registerUser(user: User)
     fun unregisterUser(user: User)
 
-    fun takeBook(user: User, book: Book)
+    // if the book was issued, it will be returned, otherwise it will return null
+    fun takeBook(user: User, book: Book): Book?
     fun returnBook(book: Book)
 }

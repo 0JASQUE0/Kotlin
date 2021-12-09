@@ -5,11 +5,11 @@ class Library : LibraryService {
     private val books: MutableMap<Book, Status> = mutableMapOf()
 
     override fun findBooks(title: String?, author: Author?, year: Year?, genre: Genre?): List<Book> {
-        val listOfBooks: MutableList<Book> = mutableListOf()
-        if (title != null) listOfBooks.addAll(findBooksByTitle(title))
-        if (author != null) listOfBooks.addAll(findBooksByAuthor(author))
-        if (year != null) listOfBooks.addAll(findBooksByYear(year))
-        if (genre != null) listOfBooks.addAll(findBooksByGenre(genre))
+        var listOfBooks: List<Book> = listOf()
+        if (title != null) listOfBooks = findBooksByTitle(title)
+        if (author != null) listOfBooks = findBooksByAuthor(author)
+        if (year != null) listOfBooks = findBooksByYear(year)
+        if (genre != null) listOfBooks = findBooksByGenre(genre)
         return listOfBooks
     }
 
@@ -60,8 +60,6 @@ class Library : LibraryService {
     }
 
     override fun getBookStatus(book: Book): Status? {
-        if (!books.containsKey(book))
-            return null
         return books[book]
     }
 
@@ -99,14 +97,15 @@ class Library : LibraryService {
         users.remove(user)
     }
 
-    override fun takeBook(user: User, book: Book) {
+    override fun takeBook(user: User, book: Book): Book? {
         if (!users.contains(user) || !books.containsKey(book))
-            return
+            return null
         if (books[book] != Status.Available)
-            return
+            return null
         if (amountOfTakenBooks(user) >= 3)
-            return
+            return null
         setBookStatus(book, Status.UsedBy(user))
+        return book
     }
 
     override fun returnBook(book: Book) {
