@@ -13,11 +13,11 @@ class Circle(val radius: Double) : Shape {
     }
 
     override fun calcArea(): Double {
-        return 2 * Math.PI * radius
+        return Math.PI * radius.pow(2)
     }
 
     override fun calcPerimeter(): Double {
-        return Math.PI * radius.pow(2)
+        return 2 * Math.PI * radius
     }
 }
 
