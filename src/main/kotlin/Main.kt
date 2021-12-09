@@ -25,7 +25,7 @@ fun main() {
     //print(calculateExpression("(5+3")) // exception
     //print(calculateExpression("(5+3))")) // exception
 
-    //third lab
+    // third lab
 
     /*val shapeFactory = ShapeFactoryImpl()
     val shapeMethods = ShapeMethods()
@@ -52,7 +52,7 @@ fun main() {
     val circle: Circle = shapeFactory.createCircle(5.0)
     print(circle.radius)*/
 
-    //fourth lab
+    // fourth lab
 
     /*val array1: Array<Array<Double>> = arrayOf(
         arrayOf(1.0, 2.0),
@@ -98,9 +98,9 @@ fun main() {
     println(matrix2 == Matrix(array1))
     println(matrix2 == Matrix(array2))*/
 
-    //fifth lab
+    // fifth lab
 
-    val library: LibraryService = Library()
+    /*val library: LibraryService = Library()
 
     val book1 = Book("Автостопом по галактике", Author("Дуглас Адамс"), Genre.FANTASY, Year(1979))
 
@@ -131,5 +131,44 @@ fun main() {
 
     result = library.findBooks(year = Year(1979))
     for (i in result)
-        println(i)
+        println(i)*/
+
+    // sixth lab
+
+    val shapeFactory = ShapeFactoryImpl()
+    val shapeCollector = ShapeCollector<Shape>()
+
+    shapeCollector.add(shapeFactory.createCircle(5.0))
+    shapeCollector.add(shapeFactory.createSquare(4.0))
+
+    val shapeList: MutableList<Shape> = arrayListOf()
+    shapeList.add(shapeFactory.createRandomRectangle())
+    shapeList.add(shapeFactory.createRandomTriangle())
+
+    shapeCollector.addAll(shapeList)
+
+    for (shape in shapeCollector.getAll())
+        println(shape)
+
+    val comparator = ShapeComparator
+
+    for (shape in shapeCollector.getAllSorted(comparator.areaComparatorDesc))
+        println(shape.calcArea())
+
+    val circleCollector = ShapeCollector<Circle>()
+
+    circleCollector.add(shapeFactory.createCircle(3.0))
+    circleCollector.add(shapeFactory.createCircle(7.0))
+    circleCollector.add(shapeFactory.createCircle(5.5))
+
+    println()
+
+    for (circle in circleCollector.getAllSorted(comparator.radiusComparatorDesc)) {
+        println(circle.radius)
+    }
+
+    println()
+
+    for (shape in shapeCollector.getAllByClass(Triangle::class.java))
+        println(shape)
 }
