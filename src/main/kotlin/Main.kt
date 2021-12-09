@@ -1,4 +1,5 @@
-import Lab5.*
+import lab7.FileIO
+import lab7.Serialization
 
 fun main() {
     // first lab
@@ -135,7 +136,7 @@ fun main() {
 
     // sixth lab
 
-    val shapeFactory = ShapeFactoryImpl()
+    /*val shapeFactory = ShapeFactoryImpl()
     val shapeCollector = ShapeCollector<Shape>()
 
     shapeCollector.add(shapeFactory.createCircle(5.0))
@@ -170,5 +171,18 @@ fun main() {
     println()
 
     for (shape in shapeCollector.getAllByClass(Triangle::class.java))
-        println(shape)
+        println(shape)*/
+
+    // seventh lab
+    val shapeFactory = ShapeFactoryImpl()
+    val serialization = Serialization
+    val file = FileIO
+
+    val shapeList: MutableList<Shape> = serialization.deserialization(file.readFromFile())
+    shapeList.add(shapeFactory.createRandomShape())
+    shapeList.add(shapeFactory.createRandomShape())
+    shapeList.add(shapeFactory.createRandomShape())
+    file.writeToFile(serialization.serialization(shapeList))
 }
+
+

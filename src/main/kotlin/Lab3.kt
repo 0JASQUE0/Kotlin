@@ -1,12 +1,14 @@
 import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.math.abs
+import kotlinx.serialization.Serializable
 
 interface Shape {
     fun calcArea(): Double
     fun calcPerimeter(): Double
 }
 
+@Serializable
 class Circle(val radius: Double) : Shape {
     init {
         if (radius <= 0) throw IllegalArgumentException("radius of the circle cannot be <= 0")
@@ -21,6 +23,7 @@ class Circle(val radius: Double) : Shape {
     }
 }
 
+@Serializable
 class Square(val a: Double) : Shape {
     init {
         if (a <= 0) throw  IllegalArgumentException("length of the side of the square cannot be <= 0")
@@ -35,6 +38,7 @@ class Square(val a: Double) : Shape {
     }
 }
 
+@Serializable
 class Rectangle(val a: Double, val b: Double) : Shape {
     init {
         if (a <= 0 || b <= 0) throw IllegalArgumentException("length of the side of the rectangle cannot be <= 0")
@@ -49,6 +53,7 @@ class Rectangle(val a: Double, val b: Double) : Shape {
     }
 }
 
+@Serializable
 class Triangle(val a: Double, val b: Double, val c: Double) : Shape {
     init {
         if (a <= 0 || b <= 0 || c <= 0) throw IllegalArgumentException("length of the side of the triangle cannot be <= 0")
