@@ -174,15 +174,16 @@ fun main() {
         println(shape)*/
 
     // seventh lab
-    val shapeFactory = ShapeFactoryImpl()
-    val serialization = Serialization
-    val file = FileIO
+    val inputPath = "D:\\Kotlin\\src\\main\\kotlin\\lab7\\in.lab7.json"
+    val outputPath = "D:\\Kotlin\\src\\main\\kotlin\\lab7\\out.lab7.json"
 
-    val shapeList: MutableList<Shape> = serialization.deserialization(file.readFromFile())
+    val shapeFactory = ShapeFactoryImpl()
+
+    val shapeList: MutableList<Shape> = Serialization.deserialization(FileIO.readFromFile(outputPath)).toMutableList()
     shapeList.add(shapeFactory.createRandomShape())
     shapeList.add(shapeFactory.createRandomShape())
     shapeList.add(shapeFactory.createRandomShape())
-    file.writeToFile(serialization.serialization(shapeList))
+    FileIO.writeToFile(Serialization.serialization(shapeList), inputPath)
 }
 
 

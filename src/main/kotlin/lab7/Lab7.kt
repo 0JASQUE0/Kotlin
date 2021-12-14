@@ -28,28 +28,25 @@ private val json = Json {
 
 
 object Serialization {
-    fun serialization(shapeList: MutableList<Shape>): String {
+    fun serialization(shapeList: List<Shape>): String {
         return json.encodeToString(shapeList)
     }
 
-    fun deserialization(string: String): MutableList<Shape> {
+    fun deserialization(string: String): List<Shape> {
         return json.decodeFromString(string)
     }
 }
 
 object FileIO {
-    private const val inputPath = "D:\\Kotlin\\src\\main\\kotlin\\lab7\\in.lab7.json"
-    private const val outputPath = "D:\\Kotlin\\src\\main\\kotlin\\lab7\\out.lab7.json"
-
-    fun writeToFile(data: String, path: String = outputPath) {
+    fun writeToFile(data: String, path: String) {
         FileWriter(path).buffered().use { writer ->
             writer.write(data)
         }
     }
 
-    fun readFromFile(): String {
+    fun readFromFile(path: String): String {
         var text: String
-        FileReader(inputPath).buffered().use { reader ->
+        FileReader(path).buffered().use { reader ->
             text = reader.readText()
         }
         return text
